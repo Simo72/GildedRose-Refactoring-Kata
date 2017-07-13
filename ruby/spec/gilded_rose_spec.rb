@@ -22,7 +22,7 @@ describe GildedRose do
       expect(items[0].quality).to eq 11
     end
 
-    it "increases quality by 1 if brie" do
+    it "increases quality by 1 if Backstage" do
       items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 10)]
       GildedRose.new(items).update_quality()
       expect(items[0].quality).to eq 11

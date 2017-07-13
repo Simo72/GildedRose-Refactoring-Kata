@@ -6,51 +6,47 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
+      if item.name == "Aged Brie"
+        return aged_brie
+      elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
+        return backstage
+      elsif item.name == "Sulfuras, Hand of Ragnaros"
+        return sulfuras
       else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
+        return other
       end
     end
   end
+
+  def aged_brie
+    @items.each do |item|
+      item.quality += 1
+      item.sell_in -= 1
+      item.quality += 1 if item.sell_in < 0
+    end
+  end
+
+    def backstage
+      @items.each do |item|
+        item.quality += 1
+        item.quality += 1 if item.sell_in < 11
+        item.quality += 1 if item.sell_in < 6
+        item.sell_in -= 1
+        item.quality = item.quality - item.quality if item.sell_in < 0
+      end
+  end
+  def sulfuras
+
+  end
+
+  def other
+    @items.each do |item|
+      item.quality -= 1 if item.quality > 0
+      item.sell_in -= 1
+      item.quality -= 1 if item.sell_in < 0
+    end
+end
+
 end
 
 class Item
